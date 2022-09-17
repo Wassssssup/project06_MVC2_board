@@ -33,6 +33,7 @@ public class BoardInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class BoardInfoServlet extends HttpServlet {
 		//num값을 이용해 게시판을 가져와야함.
 		BoardDAO bdao = new BoardDAO();
 		//BoardDTO 타입이기 때문에 해당 객체에 저장해서 set해야함.
-		BoardDTO bdto = new BoardDTO();
+		BoardDTO bdto = bdao.getOneBoard(num);
 		request.setAttribute("bdto", bdto);
 		
 		RequestDispatcher ds = request.getRequestDispatcher("BoardInfo.jsp");

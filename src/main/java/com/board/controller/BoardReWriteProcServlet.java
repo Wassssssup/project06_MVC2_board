@@ -33,6 +33,7 @@ public class BoardReWriteProcServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class BoardReWriteProcServlet extends HttpServlet {
 		
 		BoardDAO bdao = new BoardDAO();
 		
-		bdao.insertBoard(bdto);
+		bdao.reWriteBoard(bdto);
 		
 		RequestDispatcher ds=request.getRequestDispatcher("boardlist.do");
 		ds.forward(request, response);

@@ -16,7 +16,7 @@ import com.board.dto.BoardDTO;
 public class BoardDAO {
 	//DB연결을 계속 사용하니 전역변수로 설정
 	ResultSet rs;
-	Connection conn;
+	Connection conn=null;
 	PreparedStatement pstmt;
 	
 	public BoardDAO() {
@@ -36,9 +36,7 @@ public class BoardDAO {
 			initContext=new InitialContext();
 			DataSource ds=(DataSource)initContext.lookup("java:/comp/env/jdbc/Oracle11g");
 			conn=ds.getConnection();
-		}catch(NamingException e) {
-			e.printStackTrace();
-		}catch(SQLException e) {
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -51,7 +49,7 @@ public class BoardDAO {
 		
 		try {
 			conn=getConnection();
-			String sql="select count(*) from board";
+			String sql="select count(*) from reboard";
 			pstmt = conn.prepareStatement(sql);
 			//쿼리 실행 후 결과 리턴
 			rs=pstmt.executeQuery();
@@ -67,17 +65,17 @@ public class BoardDAO {
 	}
 	
 	/*화면에 데이터 10개씩 추출 후 리턴하는 메서드**/
-	public Vector<BoardDTO> getAllBoard(int start, int end){
+	public Vector<BoardDTO> getAllBoard(int startRow, int endRow){
 		Vector<BoardDTO> vec = new Vector<>(); //벡터 타입으로 리턴하기 위해
 		
 		try {
 			conn=getConnection();
-			String sql="select * from(select A.*,Rownum Rnum from(select * from board order by ref desc,re_step asc)A)"+"where Rnum >= ? and Rnum <= ?";
+			String sql="select * from(select A.*,Rownum Rnum from(select * from reboard order by ref desc,re_step asc)A)"+"where Rnum >= ? and Rnum <= ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			//?값 대입
-			pstmt.setInt(1, start);
-			pstmt.setInt(2, end);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
 			rs = pstmt.executeQuery();
 			// 데이터 개수를 모르기 때문에 while문 사용
@@ -117,7 +115,7 @@ public class BoardDAO {
 		try {
 			conn=getConnection();
 			// 가장 큰 그룹 값을 가져와서 +1을 통해 다음 그룹을 만들어주는 쿼리
-			String refsql="select max(ref) from board";
+			String refsql="select max(ref) from reboard";
 			pstmt=conn.prepareStatement(refsql);
 			rs=pstmt.executeQuery();
 			
@@ -127,7 +125,7 @@ public class BoardDAO {
 				ref=rs.getInt(1)+1; // 최대 그룹을 만들기 위함.
 			}
 			
-			String sql="insert into board values(board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
+			String sql="insert into reboard values(board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1,bdto.getWriter());
@@ -158,13 +156,13 @@ public class BoardDAO {
 			conn=getConnection();
 			
 			//조회수 증가 (num값 = key값)
-			String readsql="update board set readcount=readcount+1 where num=?";
+			String readsql="update reboard set readcount=readcount+1 where num=?";
 			pstmt=conn.prepareStatement(readsql);
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
 			
 			//게시글에 대한 정보 리턴 (num값 = key값)
-			String sql="select * from board where num=?";
+			String sql="select * from reboard where num=?";
 			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1,num);
@@ -204,14 +202,16 @@ public class BoardDAO {
 			conn=getConnection();
 			
 			//※ 부모글 보다 큰 re_level의 값을 전부 1씩 증가
-			String levelsql="update board set re_level=re_level+1 where ref=? and re_level > ?";
+			String levelsql="update reboard set re_level=re_level+1 where ref=? and re_level > ?";
 			pstmt=conn.prepareStatement(levelsql);
 			pstmt.setInt(1,ref);
 			pstmt.setInt(2,re_level);
 			pstmt.executeUpdate();
 			
 			//답변글 데이터 저장
-			String sql="insert into board values(board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
+			String sql="insert into reboard values(board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
+			pstmt=conn.prepareStatement(sql);
+			
 			pstmt.setString(1, bdto.getWriter());
 			pstmt.setString(2, bdto.getEmail());
 			pstmt.setString(3, bdto.getSubject());
@@ -235,7 +235,7 @@ public class BoardDAO {
 			
 		try {
 			conn=getConnection();
-			String sql="select * from board where num=?";
+			String sql="select * from reboard where num=?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs=pstmt.executeQuery();
@@ -268,7 +268,7 @@ public class BoardDAO {
 			try {
 				conn=getConnection();
 				
-				String sql="select password from board where num=?";
+				String sql="select password from reboard where num=?";
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setInt(1, num);
 				rs=pstmt.executeQuery();
@@ -292,7 +292,7 @@ public class BoardDAO {
 				
 				conn=getConnection();
 				
-				String sql="update board set subject=?,content=? where num=?";
+				String sql="update reboard set subject=?,content=? where num=?";
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setString(1,subject);
 				pstmt.setString(2,content);
@@ -311,7 +311,7 @@ public class BoardDAO {
 			try {
 				conn=getConnection();
 				
-				String sql="delete from board where num=?";
+				String sql="delete from reboard where num=?";
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setInt(1, num);
 				pstmt.executeUpdate();

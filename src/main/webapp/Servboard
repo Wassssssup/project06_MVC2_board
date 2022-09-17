@@ -5,7 +5,7 @@ create table reboard(
 	subject varchar2(50),
 	password varchar2(30),
 	reg_date date,
-	group_no number(3),
+	ref number(3),
 	re_step number(3),
 	re_level number(3),
 	readcount number(3),

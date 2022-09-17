@@ -37,7 +37,7 @@
 			</c:if>
 			<a href="boardinfo.do?num=${bdto.num }" style="text-decoration:none;">${bdto.subject }</a>
 		</td>
-		<td width = "100" align="left">${bdto.write }</td>
+		<td width = "100" align="left">${bdto.writer }</td>
 		<td width="150" align="center">${bdto.reg_date }</td>
 		<td width="80" align="center">${bdto.readcount }</td>
 		</tr>

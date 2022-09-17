@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.board.dao.BoardDAO;
+import com.board.dto.BoardDTO;
 
 /**
  * Servlet implementation class BoardDeleteServlet
@@ -32,6 +33,7 @@ public class BoardDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -45,7 +47,8 @@ public class BoardDeleteServlet extends HttpServlet {
 		int num = Integer.parseInt(request.getParameter("num"));
 		
 		BoardDAO bdao = new BoardDAO();
-		bdao.getOneUpdateBoard(num);
+		BoardDTO bdto = bdao.getOneUpdateBoard(num);
+		request.setAttribute("bdto", bdto);
 		
 		RequestDispatcher ds= request.getRequestDispatcher("BoardDeleteForm.jsp");
 		ds.forward(request, response);

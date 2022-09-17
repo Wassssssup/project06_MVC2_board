@@ -1,6 +1,7 @@
 package com.board.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,6 +33,7 @@ public class BoardUpdateProcServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -62,9 +64,10 @@ public class BoardUpdateProcServlet extends HttpServlet {
 			ds.forward(request, response);
 		}else {
 			request.setAttribute("msg", "비밀번호가 맞지 않습니다. 다시 입력해주세요.");
-			
-			RequestDispatcher ds=request.getRequestDispatcher("boardlist.do");
-			ds.forward(request, response);
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('비밀번호가 맞지 않습니다. 다시 입력해주세요.'); history.go(-1);;</script>"); 
+			writer.close();
 		}
 	}
 

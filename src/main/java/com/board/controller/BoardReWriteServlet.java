@@ -33,6 +33,7 @@ public class BoardReWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -44,8 +45,8 @@ public class BoardReWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		int ref=Integer.parseInt(request.getParameter("ref"));
-		int re_step=Integer.parseInt(request.getParameter("ref"));
-		int re_level=Integer.parseInt(request.getParameter("ref"));
+		int re_step=Integer.parseInt(request.getParameter("re_step"));
+		int re_level=Integer.parseInt(request.getParameter("re_level"));
 		
 		//받아온 값들을 jsp에 던져서 히든 값에 넣어서 답글이 제자리로 들어가게끔 해줘야함.
 		request.setAttribute("ref", ref);
