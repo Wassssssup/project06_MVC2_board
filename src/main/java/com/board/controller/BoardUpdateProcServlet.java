@@ -63,7 +63,7 @@ public class BoardUpdateProcServlet extends HttpServlet {
 			RequestDispatcher ds=request.getRequestDispatcher("boardlist.do");
 			ds.forward(request, response);
 		}else {
-			request.setAttribute("msg", "비밀번호가 맞지 않습니다. 다시 입력해주세요.");
+			//서블릿에서 얼럿을 띄우기 위한 방법
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter writer = response.getWriter();
 			writer.println("<script>alert('비밀번호가 맞지 않습니다. 다시 입력해주세요.'); history.go(-1);;</script>"); 
