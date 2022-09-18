@@ -10,6 +10,7 @@
 </head>
 <body>
 <div align="center">
+<form method="post">
 	<h2>전체 게시글 보기</h2>
 	<table width="700" border="1" bgcolor="skyblue">
 		<tr height="40">
@@ -80,6 +81,7 @@
 			<a href="boardlist.do?pageNum=${startPage+10 }">[다음]</a>
 		</c:if>
 	</c:if>
+</form>
 </div>
 </body>
 </html>

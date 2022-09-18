@@ -19,7 +19,18 @@ import com.board.dto.BoardDTO;
 @WebServlet("/boardlist.do")
 public class BoardListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
+	/*
+	 * @Override public void init() throws ServletException { // TODO Auto-generated
+	 * method stub System.out.println("서블릿 초기화"); }
+	 * 
+	 * @Override public void destroy() { // TODO Auto-generated method stub
+	 * System.out.println("서블릿 소멸"); }
+	 * 
+	 * @Override protected void service(HttpServletRequest req, HttpServletResponse
+	 * resp) throws ServletException, IOException { // TODO Auto-generated method
+	 * stub System.out.println("서블릿 서비스 진행"); }
+	 */
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -82,8 +93,7 @@ public class BoardListServlet extends HttpServlet {
 			request.setAttribute("count", count);
 			request.setAttribute("currentPage", currentPage);
 			request.setAttribute("msg", msg);
-			RequestDispatcher ds = request.getRequestDispatcher("BoardList.jsp");
-			ds.forward(request, response);
+			request.getRequestDispatcher("/BoardList.jsp").forward(request, response);
 				
 	}
 
